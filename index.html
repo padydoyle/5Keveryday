@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lap Zero — 5K Every Day</title>
+<meta name="theme-color" content="#14171A">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{
+  --bg:#14171A; --panel:#1D2124; --panel2:#22272B; --text:#F2EFE9; --muted:#9BA0A3;
+  --clay:#B94D32; --clay2:#7E3525; --green:#4F7E60; --amber:#D59A3D; --blue:#587A91;
+  --line:#2B3135; --danger:#C95D52; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.18);
+}
+*{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+body{padding-bottom:78px}.wrap{max-width:560px;margin:0 auto;padding:0 16px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+button,input,textarea,select{font:inherit}.hidden{display:none!important}.muted{color:var(--muted)}
+header{padding:18px 0 10px;background:linear-gradient(180deg,rgba(185,77,50,.08),transparent)}
+.brand{display:flex;justify-content:space-between;align-items:center}.brand-title{display:flex;align-items:center;gap:10px}.brand-title img{width:34px;height:34px;border-radius:8px}.brand h1{font-size:1rem;letter-spacing:.08em;text-transform:uppercase;margin:0}.icon-btn{background:none;border:0;color:var(--muted);font-size:1.25rem;padding:8px;cursor:pointer}
+.hero{display:grid;grid-template-columns:128px 1fr;gap:16px;align-items:center;padding:14px 0 8px}.track-svg{width:128px;height:86px}.hero-num{font-size:2.7rem;font-weight:800;line-height:1}.hero-label{font-size:.8rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}.hero-sub{font-size:.8rem;color:var(--muted);margin-top:8px;line-height:1.4}.hero-sub b{color:var(--text)}
+section.view{display:none;padding:8px 0 22px}section.view.active{display:block}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}.card h2{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 12px}.card h3{font-size:1rem;margin:0}
+.primary-cta{width:100%;border:0;border-radius:15px;background:var(--clay);color:var(--text);padding:15px;font-weight:800;font-size:1rem;cursor:pointer;box-shadow:0 8px 20px rgba(185,77,50,.22)}.primary-cta:active{background:var(--clay2)}.btn{border:0;border-radius:12px;background:var(--clay);color:var(--text);padding:12px 14px;font-weight:700;cursor:pointer}.btn.ghost{background:transparent;border:1px solid var(--line)}.btn.small{padding:9px 12px;font-size:.82rem}.btn.danger{color:#F1B4AE;border-color:#5a302c}.btn:disabled{opacity:.45;cursor:not-allowed}
+.status-banner{display:flex;align-items:center;justify-content:space-between;gap:12px}.status-main{font-size:1.08rem;font-weight:800}.status-sub{font-size:.8rem;color:var(--muted);margin-top:4px}.status-pill{padding:7px 10px;border-radius:999px;background:#252B2F;color:var(--muted);font-size:.74rem;white-space:nowrap}.status-pill.done{background:rgba(79,126,96,.18);color:#A9D3B5}
+.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.metric{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px}.metric .value{font-size:1.35rem;font-weight:800}.metric .label{font-size:.72rem;color:var(--muted);margin-top:4px}.metric .trend{font-size:.72rem;margin-top:5px;color:#A9D3B5}.metric .trend.bad{color:#E0A29A}
+.easy-wrap{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:center}.score-ring{width:90px;height:90px}.score-big{font-size:2rem;font-weight:800}.score-label{font-size:.74rem;color:var(--muted);margin-top:3px}.score-copy{font-size:.82rem;color:var(--muted);line-height:1.5}.score-copy b{color:var(--text)}
+.insight{padding:12px;border-left:3px solid var(--green);background:rgba(79,126,96,.08);border-radius:10px;font-size:.86rem;line-height:1.5}.insight.warn{border-left-color:var(--amber);background:rgba(213,154,61,.08)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.form-grid.three{grid-template-columns:repeat(3,1fr)}.field{margin-bottom:12px}.field label{display:block;color:var(--muted);font-size:.76rem;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;background:var(--bg);border:1px solid #31383D;color:var(--text);border-radius:11px;padding:11px}.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--clay)}
+.choice-row{display:flex;gap:7px;flex-wrap:wrap}.choice{flex:1;min-width:76px;border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:999px;padding:9px 8px;font-size:.76rem;cursor:pointer}.choice.active{background:rgba(185,77,50,.16);border-color:var(--clay);color:var(--text)}
+.scan-box{border:1.5px dashed #3A4247;border-radius:14px;padding:18px;text-align:center;color:var(--muted);font-size:.84rem;cursor:pointer}.scan-preview{width:100%;max-height:230px;object-fit:contain;border-radius:12px;margin:10px 0}.scan-status{font-size:.8rem;color:var(--muted);margin-top:8px;line-height:1.4}.scan-status.ok{color:#A9D3B5}.scan-status.err{color:#E0A29A}
+.stats-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mini-stat{text-align:center;padding:10px;background:var(--panel2);border-radius:12px}.mini-stat .v{font-weight:800}.mini-stat .l{font-size:.67rem;color:var(--muted);margin-top:3px}
+canvas.chart{width:100%;height:160px;display:block}.chart-note{font-size:.72rem;color:var(--muted);margin-top:8px}.compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.compare{background:var(--panel2);border-radius:12px;padding:10px}.compare .v{font-weight:800;font-size:1.05rem}.compare .l{font-size:.68rem;color:var(--muted);margin-top:4px}.compare .good{color:#A9D3B5}.compare .bad{color:#E0A29A}
+.run-row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #262C30}.run-row:last-child{border-bottom:0}.run-date{font-size:.76rem;color:var(--muted)}.run-main{font-size:.92rem;font-weight:800;margin-top:2px}.run-sub{font-size:.76rem;color:var(--muted);margin-top:3px}.run-actions button{background:none;border:0;color:#70787D;font-size:1rem;padding:6px}.effort-chip{display:inline-block;border-radius:999px;padding:3px 7px;font-size:.66rem;margin-left:5px;background:#292F33;color:var(--muted)}
+.achievement-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}.achievement-summary .metric{padding:14px}.achievement-category{margin:18px 0 8px;font-size:.77rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.badge-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.badge-card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px;text-align:center;overflow:hidden}.badge-card.locked{opacity:.55;filter:grayscale(.9)}.badge-art{height:112px;display:flex;align-items:center;justify-content:center}.badge-name{font-weight:800;font-size:.88rem}.badge-desc{font-size:.7rem;color:var(--muted);line-height:1.35;margin-top:4px;min-height:38px}.badge-progress{height:5px;background:#2B3135;border-radius:99px;overflow:hidden;margin-top:9px}.badge-progress>div{height:100%;background:var(--clay)}.badge-meta{font-size:.66rem;color:var(--muted);margin-top:6px}.badge-new{position:absolute;top:8px;right:8px;background:var(--amber);color:#17191B;border-radius:999px;padding:3px 6px;font-size:.58rem;font-weight:900}
+.settings-group{display:grid;gap:10px}.setting-row{display:flex;justify-content:space-between;align-items:center;gap:12px}.setting-row .copy{flex:1}.setting-row .title{font-weight:700;font-size:.9rem}.setting-row .sub{font-size:.72rem;color:var(--muted);margin-top:3px;line-height:1.35}.setting-row input{width:90px;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;display:flex;background:#191D20;border-top:1px solid #2B3135;z-index:30;padding-bottom:env(safe-area-inset-bottom)}nav.tabs button{flex:1;border:0;background:none;color:var(--muted);padding:10px 3px 9px;font-size:.66rem;text-transform:uppercase;letter-spacing:.04em;cursor:pointer}.tab-icon{display:block;font-size:1rem;margin-bottom:3px}.tabs button.active{color:var(--text)}
+.modal{position:fixed;inset:0;background:rgba(8,10,12,.72);z-index:50;display:none;align-items:flex-end}.modal.open{display:flex}.sheet{width:100%;max-height:94vh;overflow:auto;background:var(--bg);border-radius:24px 24px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -20px 50px rgba(0,0,0,.45)}.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.sheet-head h2{margin:0;font-size:1.05rem}.sheet-close{border:0;background:#242A2E;color:var(--text);width:34px;height:34px;border-radius:50%;font-size:1rem}
+.toast{position:fixed;bottom:88px;left:16px;right:16px;max-width:520px;margin:0 auto;background:var(--text);color:var(--bg);padding:12px 15px;border-radius:12px;text-align:center;font-weight:700;font-size:.82rem;transform:translateY(150%);transition:.25s;z-index:70}.toast.show{transform:translateY(0)}
+.unlock{position:fixed;inset:0;background:rgba(7,9,10,.9);z-index:80;display:none;align-items:center;justify-content:center;padding:22px}.unlock.open{display:flex}.unlock-card{width:100%;max-width:390px;background:linear-gradient(180deg,#22272B,#171A1D);border:1px solid #3A4247;border-radius:24px;padding:22px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.45)}.unlock-kicker{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:900}.unlock-art{height:180px;display:flex;justify-content:center;align-items:center}.unlock-title{font-size:1.4rem;font-weight:900}.unlock-desc{font-size:.84rem;color:var(--muted);line-height:1.45;margin:8px 0 16px}
+.empty{text-align:center;color:var(--muted);font-size:.84rem;padding:22px 8px}.section-title{display:flex;align-items:center;justify-content:space-between;margin:4px 0 10px}.section-title h2{font-size:.85rem;margin:0}.section-title span{font-size:.72rem;color:var(--muted)}
+@media(max-width:380px){.hero{grid-template-columns:110px 1fr}.track-svg{width:110px}.metric-grid,.badge-grid{grid-template-columns:1fr 1fr}.form-grid.three{grid-template-columns:1fr 1fr}.compare-grid{grid-template-columns:1fr}.stats-strip{grid-template-columns:1fr 1fr 1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-title"><img src="icon-192.png" alt=""><h1>Lap Zero</h1></div>
+      <button class="icon-btn" id="settingsBtn" aria-label="Settings">⚙</button>
+    </div>
+    <div class="hero">
+      <svg class="track-svg" viewBox="0 0 120 80" aria-label="streak progress">
+        <path id="loopBase" d="M32 10 H88 A28 28 0 0 1 88 70 H32 A28 28 0 0 1 32 10 Z" fill="none" stroke="#2A3034" stroke-width="10"/>
+        <path id="loopProgress" d="M32 10 H88 A28 28 0 0 1 88 70 H32 A28 28 0 0 1 32 10 Z" fill="none" stroke="#B94D32" stroke-width="10" stroke-linecap="round"/>
+        <circle id="loopDot" r="5" fill="#F2EFE9"/>
+      </svg>
+      <div><div class="hero-num mono" id="streakNum">0</div><div class="hero-label">day streak</div><div class="hero-sub" id="streakSub">Tomorrow is Day 1.</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+<section class="view active" id="view-today">
+  <div class="card status-banner">
+    <div><div class="status-main" id="todayStatus">Today's 5K not logged</div><div class="status-sub" id="todayStatusSub">One run. Five kilometres. Keep the chain alive.</div></div>
+    <div class="status-pill" id="todayPill">OPEN</div>
+  </div>
+
+  <button class="primary-cta" id="addRunBtn">＋ ADD TODAY'S 5K</button>
+
+  <div style="height:14px"></div>
+  <div class="card">
+    <h2>Current form</h2>
+    <div class="metric-grid">
+      <div class="metric"><div class="value mono" id="mAvg5k">—</div><div class="label">7-day avg 5K</div><div class="trend" id="mAvgTrend"></div></div>
+      <div class="metric"><div class="value mono" id="mAvgHr">—</div><div class="label">7-day avg HR</div><div class="trend" id="mHrTrend"></div></div>
+      <div class="metric"><div class="value mono" id="mBest">—</div><div class="label">Best 5K</div><div class="trend" id="mBestDate"></div></div>
+      <div class="metric"><div class="value mono" id="mTotalKm">0</div><div class="label">Total kilometres</div><div class="trend" id="mRunCount">0 runs</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Getting easier</h2>
+    <div class="easy-wrap">
+      <svg class="score-ring" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#2B3135" stroke-width="9"/>
+        <circle id="scoreArc" cx="50" cy="50" r="40" fill="none" stroke="#4F7E60" stroke-width="9" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text id="scoreText" x="50" y="54" text-anchor="middle" fill="#F2EFE9" font-size="22" font-weight="800">0</text>
+      </svg>
+      <div><div class="score-big" id="scoreLabel">Building baseline</div><div class="score-label">Easy 5K Score</div><div class="score-copy" id="scoreCopy">Log your first few runs and Lap Zero will start measuring pace, heart rate, effort and consistency together.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Coach note</h2>
+    <div class="insight" id="coachNote">Your first goal is consistency, not speed. Keep the first few 5Ks controlled so we get a useful baseline.</div>
+  </div>
+</section>
+
+<section class="view" id="view-progress">
+  <div class="card">
+    <h2>7-day form vs previous 7</h2>
+    <div class="compare-grid">
+      <div class="compare"><div class="v mono" id="cmpPace">—</div><div class="l">Pace change</div></div>
+      <div class="compare"><div class="v mono" id="cmpHr">—</div><div class="l">Avg HR change</div></div>
+      <div class="compare"><div class="v mono" id="cmpEffort">—</div><div class="l">Effort change</div></div>
+    </div>
+  </div>
+  <div class="card"><h2>Pace trend</h2><canvas class="chart" id="paceChart"></canvas><div class="chart-note">Rolling performance across all logged 5Ks. Lower is faster.</div></div>
+  <div class="card"><h2>Average heart rate trend</h2><canvas class="chart" id="hrChart"></canvas><div class="chart-note">A lower heart rate at the same or faster pace is a strong sign the 5K is getting easier.</div></div>
+  <div class="card"><h2>Since Day 1</h2><div class="stats-strip"><div class="mini-stat"><div class="v mono" id="sincePace">—</div><div class="l">pace</div></div><div class="mini-stat"><div class="v mono" id="sinceHr">—</div><div class="l">avg HR</div></div><div class="mini-stat"><div class="v mono" id="sinceEasy">—</div><div class="l">easy-score</div></div></div></div>
+</section>
+
+<section class="view" id="view-runs">
+  <div class="card"><div class="section-title"><h2>Run log</h2><span id="runLogCount">0 runs</span></div><div id="runList"></div></div>
+</section>
+
+<section class="view" id="view-achievements">
+  <div class="achievement-summary">
+    <div class="metric"><div class="value mono" id="achUnlocked">0/22</div><div class="label">Unlocked</div></div>
+    <div class="metric"><div class="value mono" id="achPoints">0</div><div class="label">Achievement points</div></div>
+  </div>
+  <div id="achievementList"></div>
+</section>
+
+<section class="view" id="view-settings">
+  <div class="card"><h2>Challenge</h2><div class="settings-group"><div class="setting-row"><div class="copy"><div class="title">Streak target</div><div class="sub">Used for the track-loop progress display.</div></div><input type="number" min="1" id="sGoal"></div><button class="btn ghost small" id="saveGoalBtn">Save target</button></div></div>
+  <div class="card"><h2>Garmin screenshot scan</h2><div class="field"><label>Anthropic API key</label><input type="password" id="sApiKey" placeholder="sk-ant-..."></div><div class="muted" style="font-size:.73rem;line-height:1.45;margin-bottom:10px">Optional. The key stays in this browser's local storage and is only used when you ask the app to analyse a screenshot.</div><button class="btn ghost small" id="saveApiBtn">Save API key</button></div>
+  <div class="card"><h2>Backup & restore</h2><div class="muted" style="font-size:.78rem;line-height:1.5;margin-bottom:12px">Export a complete Lap Zero backup before updating the app. It includes runs, achievement unlocks and settings, but deliberately excludes your API key.</div><button class="btn ghost" style="width:100%;margin-bottom:9px" id="exportBtn">Export complete backup</button><input type="file" id="importFile" accept="application/json" class="hidden"><button class="btn ghost" style="width:100%" id="importBtn">Import / merge backup</button></div>
+  <div class="card"><h2>Data</h2><button class="btn ghost danger small" id="clearBtn">Delete all run data</button></div>
+</section>
+</main>
+
+<nav class="tabs">
+  <button class="active" data-view="today"><span class="tab-icon">●</span>Today</button>
+  <button data-view="progress"><span class="tab-icon">↗</span>Progress</button>
+  <button data-view="runs"><span class="tab-icon">≡</span>Runs</button>
+  <button data-view="achievements"><span class="tab-icon">◆</span>Badges</button>
+</nav>
+
+<div class="modal" id="runModal"><div class="sheet"><div class="sheet-head"><h2>Add 5K</h2><button class="sheet-close" id="closeRunModal">×</button></div>
+  <div class="card">
+    <h2>Garmin screenshot</h2>
+    <input type="file" id="scanFile" accept="image/*" capture="environment" class="hidden">
+    <div class="scan-box" id="scanPick">Tap to choose or photograph your Garmin activity summary</div>
+    <img id="scanPreview" class="scan-preview hidden" alt="Garmin screenshot preview">
+    <button class="btn" style="width:100%;margin-top:10px" id="scanBtn" disabled>Analyse screenshot</button>
+    <div class="scan-status" id="scanStatus"></div>
+  </div>
+  <div class="card">
+    <h2>Run details</h2>
+    <div class="field"><label>Date</label><input type="date" id="fDate"></div>
+    <div class="form-grid"><div class="field"><label>Distance (km)</label><input type="number" step="0.01" id="fDist" value="5" inputmode="decimal"></div><div class="field"><label>Duration</label><input type="text" id="fDur" placeholder="31:20" inputmode="numeric"></div></div>
+    <div class="form-grid three"><div class="field"><label>Avg HR</label><input type="number" id="fAvgHr" inputmode="numeric"></div><div class="field"><label>Max HR</label><input type="number" id="fMaxHr" inputmode="numeric"></div><div class="field"><label>Cadence</label><input type="number" id="fCad" inputmode="numeric"></div></div>
+    <div class="form-grid"><div class="field"><label>Elevation gain (m)</label><input type="number" id="fElev" inputmode="numeric"></div><div class="field"><label>Calories</label><input type="number" id="fCal" inputmode="numeric"></div></div>
+    <div class="field"><label>Run type</label><div class="choice-row" id="runTypeChoices"><button class="choice" data-value="Recovery">Recovery</button><button class="choice active" data-value="Easy">Easy</button><button class="choice" data-value="Normal">Normal</button><button class="choice" data-value="Hard">Hard</button><button class="choice" data-value="PB attempt">PB</button></div></div>
+    <div class="field"><label>How did it feel?</label><div class="choice-row" id="effortChoices"><button class="choice" data-value="1">Easy</button><button class="choice active" data-value="2">Comfortable</button><button class="choice" data-value="3">Moderate</button><button class="choice" data-value="4">Hard</button><button class="choice" data-value="5">Brutal</button></div></div>
+    <div class="field"><label>Notes</label><textarea id="fNotes" rows="2" placeholder="Legs, weather, route, anything worth remembering..."></textarea></div>
+    <button class="primary-cta" id="saveRunBtn">SAVE RUN</button>
+  </div>
+</div></div>
+
+<div class="unlock" id="unlockModal"><div class="unlock-card"><div class="unlock-kicker">Achievement unlocked</div><div class="unlock-art" id="unlockArt"></div><div class="unlock-title" id="unlockTitle"></div><div class="unlock-desc" id="unlockDesc"></div><button class="btn" id="unlockClose">Nice</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const VERSION=2;
+const KEYS={entries:'lapzero_entries_v2',goal:'lapzero_goal_v2',api:'lapzero_apikey_v1',unlocks:'lapzero_unlocks_v2'};
+const LEGACY={entries:'lapzero_entries_v1',goal:'lapzero_goal_v1'};
+const EFFORT_LABELS={1:'Easy',2:'Comfortable',3:'Moderate',4:'Hard',5:'Brutal'};
+const state={runType:'Easy',effort:2,scan:null};
+
+function migrate(){
+  if(!localStorage.getItem(KEYS.entries) && localStorage.getItem(LEGACY.entries)) localStorage.setItem(KEYS.entries,localStorage.getItem(LEGACY.entries));
+  if(!localStorage.getItem(KEYS.goal) && localStorage.getItem(LEGACY.goal)) localStorage.setItem(KEYS.goal,localStorage.getItem(LEGACY.goal));
+}
+migrate();
+const getEntries=()=>{try{return JSON.parse(localStorage.getItem(KEYS.entries)||'[]')}catch{return []}};
+const setEntries=a=>localStorage.setItem(KEYS.entries,JSON.stringify(a));
+const getGoal=()=>Math.max(1,parseInt(localStorage.getItem(KEYS.goal)||'30',10));
+const getUnlocks=()=>{try{return JSON.parse(localStorage.getItem(KEYS.unlocks)||'{}')}catch{return {}}};
+const setUnlocks=o=>localStorage.setItem(KEYS.unlocks,JSON.stringify(o));
+const todayStr=()=>{const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)};
+const dayShift=(s,n)=>{const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};
+const fmtDate=s=>new Date(s+'T12:00:00').toLocaleDateString(undefined,{day:'numeric',month:'short'});
+function parseDur(s){if(!s)return null;const p=s.trim().split(':').map(Number);if(p.some(isNaN))return null;if(p.length===2)return p[0]*60+p[1];if(p.length===3)return p[0]*3600+p[1]*60+p[2];return null}
+function fmtDur(sec){if(sec==null||!isFinite(sec))return '—';sec=Math.round(sec);const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return h?`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`:`${m}:${String(s).padStart(2,'0')}`}
+function fmtPace(sec){return sec==null?'—':fmtDur(sec)+'/km'}
+const avg=(arr,key)=>{const v=arr.map(x=>typeof key==='function'?key(x):x[key]).filter(x=>x!=null&&isFinite(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),2200)}
+
+function streakInfo(entries){
+  const dates=new Set(entries.map(e=>e.date)); const t=todayStr(); let cursor=dates.has(t)?t:dayShift(t,-1),streak=0;
+  while(dates.has(cursor)){streak++;cursor=dayShift(cursor,-1)}
+  return {streak,loggedToday:dates.has(t)};
+}
+function normalizeEntry(e){
+  return {...e,runType:e.runType||'Normal',effort:e.effort||null,elevationM:e.elevationM??null,calories:e.calories??null,avgPaceSecPerKm:e.avgPaceSecPerKm||((e.durationSec&&e.distanceKm)?e.durationSec/e.distanceKm:null)};
+}
+function chrono(){return getEntries().map(normalizeEntry).sort((a,b)=>a.date.localeCompare(b.date))}
+function rolling(arr,n){return arr.slice(-n)}
+function easyScore(entries){
+  if(entries.length<3)return {score:Math.round(entries.length/3*20),ready:false,parts:{}};
+  const base=entries.slice(0,Math.min(3,entries.length)); const recent=entries.slice(-Math.min(7,entries.length));
+  const baseP=avg(base,'avgPaceSecPerKm'), recP=avg(recent,'avgPaceSecPerKm');
+  const baseH=avg(base,'avgHR'), recH=avg(recent,'avgHR'); const recE=avg(recent,'effort');
+  const {streak}=streakInfo(entries);
+  const consistency=clamp(streak/30,0,1)*25;
+  const paceGain=(baseP&&recP)?(baseP-recP)/baseP:0; const pace=clamp((paceGain+0.03)/0.15,0,1)*25;
+  const hrGain=(baseH&&recH)?baseH-recH:0; const hr=(baseH&&recH)?clamp((hrGain+2)/14,0,1)*25:12.5;
+  const effort=recE?clamp((5-recE)/4,0,1)*25:12.5;
+  return {score:Math.round(consistency+pace+hr+effort),ready:true,parts:{consistency,pace,hr,effort}};
+}
+
+function renderLoop(entries){
+  const {streak,loggedToday}=streakInfo(entries),goal=getGoal(); document.getElementById('streakNum').textContent=streak;
+  const sub=document.getElementById('streakSub');
+  if(!entries.length)sub.innerHTML='Tomorrow is <b>Day 1</b>.'; else if(!loggedToday)sub.innerHTML=`<b>At risk</b> — log today to keep it alive.`; else sub.innerHTML=`Goal <b>${goal}</b> days · ${Math.max(goal-streak,0)} to go`;
+  const base=document.getElementById('loopBase'),path=document.getElementById('loopProgress'),dot=document.getElementById('loopDot'),len=base.getTotalLength(),pct=clamp(streak/goal,0,1);path.style.strokeDasharray=len;path.style.strokeDashoffset=len*(1-pct);const pt=base.getPointAtLength(len*pct);dot.setAttribute('cx',pt.x);dot.setAttribute('cy',pt.y);
+}
+function renderToday(entries){
+  const today=entries.find(e=>e.date===todayStr()),pill=document.getElementById('todayPill');
+  if(today){document.getElementById('todayStatus').textContent=`5K logged · ${fmtDur(today.durationSec)}`;document.getElementById('todayStatusSub').textContent=`${fmtPace(today.avgPaceSecPerKm)}${today.avgHR?' · '+today.avgHR+' bpm':''}${today.effort?' · '+EFFORT_LABELS[today.effort]:''}`;pill.textContent='DONE';pill.classList.add('done');document.getElementById('addRunBtn').textContent='EDIT TODAY\'S 5K'}else{document.getElementById('todayStatus').textContent="Today's 5K not logged";document.getElementById('todayStatusSub').textContent='One run. Five kilometres. Keep the chain alive.';pill.textContent='OPEN';pill.classList.remove('done');document.getElementById('addRunBtn').textContent="＋ ADD TODAY'S 5K"}
+  const r7=rolling(entries,7),prev=entries.slice(Math.max(0,entries.length-14),Math.max(0,entries.length-7));
+  const p7=avg(r7,e=>e.durationSec/e.distanceKm),pp=avg(prev,e=>e.durationSec/e.distanceKm),h7=avg(r7,'avgHR'),hp=avg(prev,'avgHR');
+  document.getElementById('mAvg5k').textContent=p7?fmtDur(p7*5):'—';
+  document.getElementById('mAvgHr').textContent=h7?Math.round(h7)+' bpm':'—';
+  const pt=document.getElementById('mAvgTrend'),ht=document.getElementById('mHrTrend');
+  if(pp&&p7){const d=(pp-p7)*5;pt.textContent=(d>=0?'↓ ':'↑ ')+fmtDur(Math.abs(d))+' vs prior 7';pt.className='trend'+(d<0?' bad':'')}else pt.textContent='Need more runs';
+  if(hp&&h7){const d=hp-h7;ht.textContent=(d>=0?'↓ ':'↑ ')+Math.abs(Math.round(d))+' bpm vs prior 7';ht.className='trend'+(d<0?' bad':'')}else ht.textContent='Need more HR data';
+  if(entries.length){const best=entries.reduce((a,b)=>a.durationSec/ a.distanceKm < b.durationSec/b.distanceKm?a:b);document.getElementById('mBest').textContent=fmtDur(best.avgPaceSecPerKm*5);document.getElementById('mBestDate').textContent=fmtDate(best.date)}else{document.getElementById('mBest').textContent='—';document.getElementById('mBestDate').textContent=''}
+  document.getElementById('mTotalKm').textContent=entries.reduce((s,e)=>s+(+e.distanceKm||0),0).toFixed(1);document.getElementById('mRunCount').textContent=`${entries.length} run${entries.length===1?'':'s'}`;
+  const es=easyScore(entries),circ=2*Math.PI*40;document.getElementById('scoreArc').style.strokeDasharray=circ;document.getElementById('scoreArc').style.strokeDashoffset=circ*(1-es.score/100);document.getElementById('scoreText').textContent=es.score;
+  const label=document.getElementById('scoreLabel'),copy=document.getElementById('scoreCopy');
+  if(!es.ready){label.textContent='Building baseline';copy.textContent='Log your first three runs and Lap Zero will start comparing pace, heart rate, effort and consistency.'}
+  else if(es.score<40){label.textContent='Building';copy.innerHTML='Consistency is doing the heavy lifting right now. Keep most runs controlled and give the trend time to develop.'}
+  else if(es.score<60){label.textContent='Progressing';copy.innerHTML='<b>The 5K is moving the right way.</b> You are starting to improve one or more of pace, HR or perceived effort.'}
+  else if(es.score<80){label.textContent='Getting easier';copy.innerHTML='<b>Clear improvement.</b> You are combining better fitness with consistency. Keep stacking comfortable days.'}
+  else{label.textContent='Easy territory';copy.innerHTML='<b>You are close to — or at — the Lap Zero threshold.</b> The final badge also checks your recent effort ratings.'}
+  renderCoach(entries,es);
+}
+function renderCoach(entries,es){const el=document.getElementById('coachNote');if(entries.length<3){el.className='insight';el.textContent='Your first goal is consistency, not speed. Keep the first few 5Ks controlled so we get a useful baseline.';return}const last=entries.slice(-3),hard=last.filter(e=>e.effort>=4).length;if(hard>=2){el.className='insight warn';el.textContent='Two of your last three runs were hard. Make the next 5K deliberately easy or recovery-paced rather than chasing another fast time.'}else if(es.score>=70){el.className='insight';el.textContent='Your trend is strong. Keep most 5Ks easy and save the hard efforts for days when your legs genuinely feel good.'}else{el.className='insight';el.textContent='Aim for a conversational 5K today. The app rewards a lower heart rate and easier perceived effort, not just faster times.'}}
+
+function renderProgress(entries){
+  const last=entries.slice(-7),prev=entries.slice(Math.max(0,entries.length-14),Math.max(0,entries.length-7));
+  const metrics=[['cmpPace',avg(prev,'avgPaceSecPerKm'),avg(last,'avgPaceSecPerKm'),'pace'],['cmpHr',avg(prev,'avgHR'),avg(last,'avgHR'),'hr'],['cmpEffort',avg(prev,'effort'),avg(last,'effort'),'effort']];
+  metrics.forEach(([id,a,b,t])=>{const el=document.getElementById(id);el.className='v mono';if(a==null||b==null){el.textContent='—';return}let d=a-b;if(t==='pace')el.textContent=(d>=0?'− ':'+ ')+fmtDur(Math.abs(d))+'/km';else if(t==='hr')el.textContent=(d>=0?'− ':'+ ')+Math.abs(Math.round(d))+' bpm';else el.textContent=(d>=0?'− ':'+ ')+Math.abs(d).toFixed(1)+' effort';el.classList.add(d>=0?'good':'bad')});
+  drawChart('paceChart',entries.map(e=>e.avgPaceSecPerKm),fmtDur);drawChart('hrChart',entries.map(e=>e.avgHR),v=>Math.round(v)+' bpm');
+  if(entries.length>=3){const base=entries.slice(0,3),recent=entries.slice(-3),p0=avg(base,'avgPaceSecPerKm'),p1=avg(recent,'avgPaceSecPerKm'),h0=avg(base,'avgHR'),h1=avg(recent,'avgHR');document.getElementById('sincePace').textContent=p0&&p1?((p0-p1)>=0?'−':'+')+fmtDur(Math.abs(p0-p1)):'/km';document.getElementById('sinceHr').textContent=h0&&h1?((h0-h1)>=0?'−':'+')+Math.abs(Math.round(h0-h1)):'—';document.getElementById('sinceEasy').textContent=easyScore(entries).score+'/100'}else{['sincePace','sinceHr','sinceEasy'].forEach(id=>document.getElementById(id).textContent='—')}
+}
+function drawChart(id,values,formatter){const c=document.getElementById(id),dpr=devicePixelRatio||1,w=c.clientWidth||320,h=160;c.width=w*dpr;c.height=h*dpr;const x=c.getContext('2d');x.scale(dpr,dpr);x.clearRect(0,0,w,h);const vals=values.map((v,i)=>({v,i})).filter(o=>o.v!=null&&isFinite(o.v));if(vals.length<2){x.fillStyle='#737A7F';x.font='13px sans-serif';x.fillText('Log a few more runs to see a trend.',10,h/2);return}const pad=26,min=Math.min(...vals.map(o=>o.v)),max=Math.max(...vals.map(o=>o.v)),range=max-min||1,step=(w-pad*2)/Math.max(1,values.length-1);x.strokeStyle='#B94D32';x.lineWidth=2.5;x.lineJoin='round';x.beginPath();vals.forEach((o,j)=>{const px=pad+o.i*step,py=h-pad-((o.v-min)/range)*(h-pad*2-12);j?x.lineTo(px,py):x.moveTo(px,py)});x.stroke();vals.forEach(o=>{const px=pad+o.i*step,py=h-pad-((o.v-min)/range)*(h-pad*2-12);x.beginPath();x.arc(px,py,3,0,Math.PI*2);x.fillStyle='#F2EFE9';x.fill()});x.fillStyle='#9BA0A3';x.font='11px monospace';x.fillText(formatter(max),2,13);x.fillText(formatter(min),2,h-5)}
+
+function renderRuns(entries){document.getElementById('runLogCount').textContent=`${entries.length} run${entries.length===1?'':'s'}`;const el=document.getElementById('runList');el.innerHTML='';if(!entries.length){el.innerHTML='<div class="empty">No runs logged yet.</div>';return}entries.slice().reverse().forEach(e=>{const r=document.createElement('div');r.className='run-row';r.innerHTML=`<div><div class="run-date">${fmtDate(e.date)}</div><div class="run-main">${e.distanceKm.toFixed?e.distanceKm.toFixed(2):e.distanceKm} km · ${fmtDur(e.durationSec)}</div><div class="run-sub">${fmtPace(e.avgPaceSecPerKm)}${e.avgHR?' · '+e.avgHR+' bpm':''}${e.effort?' <span class="effort-chip">'+EFFORT_LABELS[e.effort]+'</span>':''}</div></div><div class="run-actions"><button data-edit="${e.date}">✎</button><button data-del="${e.date}">×</button></div>`;el.appendChild(r)});el.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>openRunModal(entries.find(e=>e.date===b.dataset.edit)));el.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(confirm('Delete this run?')){setEntries(entries.filter(e=>e.date!==b.dataset.del));renderAll()}})}
+
+const ACHIEVEMENTS=[
+ {id:'first',cat:'Streak',name:'First Lap',desc:'Complete your first 5K.',points:10,glyph:'1',progress:e=>[Math.min(e.length,1),1],test:e=>e.length>=1},
+ {id:'three',cat:'Streak',name:'Hat Trick',desc:'Build a 3-day streak.',points:10,glyph:'3',progress:e=>[Math.min(streakInfo(e).streak,3),3],test:e=>streakInfo(e).streak>=3},
+ {id:'week',cat:'Streak',name:'One Week',desc:'Build a 7-day streak.',points:20,glyph:'7',progress:e=>[Math.min(streakInfo(e).streak,7),7],test:e=>streakInfo(e).streak>=7},
+ {id:'fortnight',cat:'Streak',name:'Fortnight',desc:'Build a 14-day streak.',points:30,glyph:'14',progress:e=>[Math.min(streakInfo(e).streak,14),14],test:e=>streakInfo(e).streak>=14},
+ {id:'month',cat:'Streak',name:'The Month',desc:'Build a 30-day streak.',points:50,glyph:'30',progress:e=>[Math.min(streakInfo(e).streak,30),30],test:e=>streakInfo(e).streak>=30},
+ {id:'fiftyday',cat:'Streak',name:'Fifty',desc:'Build a 50-day streak.',points:75,glyph:'50',progress:e=>[Math.min(streakInfo(e).streak,50),50],test:e=>streakInfo(e).streak>=50},
+ {id:'centuryday',cat:'Streak',name:'Century',desc:'Build a 100-day streak.',points:120,glyph:'100',progress:e=>[Math.min(streakInfo(e).streak,100),100],test:e=>streakInfo(e).streak>=100},
+ {id:'km50',cat:'Distance',name:'First 50',desc:'Run 50 km in Lap Zero.',points:20,glyph:'50K',progress:e=>[Math.min(totalKm(e),50),50],test:e=>totalKm(e)>=50},
+ {id:'km100',cat:'Distance',name:'Century Runner',desc:'Run 100 km in Lap Zero.',points:35,glyph:'100K',progress:e=>[Math.min(totalKm(e),100),100],test:e=>totalKm(e)>=100},
+ {id:'km250',cat:'Distance',name:'Quarter Thousand',desc:'Run 250 km in Lap Zero.',points:60,glyph:'250',progress:e=>[Math.min(totalKm(e),250),250],test:e=>totalKm(e)>=250},
+ {id:'km500',cat:'Distance',name:'500 Club',desc:'Run 500 km in Lap Zero.',points:100,glyph:'500',progress:e=>[Math.min(totalKm(e),500),500],test:e=>totalKm(e)>=500},
+ {id:'pb',cat:'Speed',name:'New Gear',desc:'Beat an earlier 5K personal best.',points:15,glyph:'PB',progress:e=>[hasPb(e)?1:0,1],test:e=>hasPb(e)},
+ {id:'sub30',cat:'Speed',name:'Breaking Thirty',desc:'Complete a 5K in under 30:00.',points:40,glyph:'<30',progress:e=>[best5k(e)?Math.min(1800/best5k(e),1):0,1],test:e=>best5k(e)!=null&&best5k(e)<1800},
+ {id:'sub28',cat:'Speed',name:'28 Club',desc:'Complete a 5K in under 28:00.',points:55,glyph:'<28',progress:e=>[best5k(e)?Math.min(1680/best5k(e),1):0,1],test:e=>best5k(e)!=null&&best5k(e)<1680},
+ {id:'sub25',cat:'Speed',name:'25 Club',desc:'Complete a 5K in under 25:00.',points:80,glyph:'<25',progress:e=>[best5k(e)?Math.min(1500/best5k(e),1):0,1],test:e=>best5k(e)!=null&&best5k(e)<1500},
+ {id:'pb3',cat:'Speed',name:'Three Gears',desc:'Set three new personal bests after Day 1.',points:35,glyph:'PB×3',progress:e=>[Math.min(pbCount(e),3),3],test:e=>pbCount(e)>=3},
+ {id:'easy1',cat:'Getting Easier',name:'Cruise Control',desc:'Rate a 5K as Easy.',points:15,glyph:'EASY',progress:e=>[e.some(x=>x.effort===1)?1:0,1],test:e=>e.some(x=>x.effort===1)},
+ {id:'easy5',cat:'Getting Easier',name:'Easy Does It',desc:'Log 5 Easy or Comfortable 5Ks.',points:25,glyph:'×5',progress:e=>[Math.min(e.filter(x=>x.effort&&x.effort<=2).length,5),5],test:e=>e.filter(x=>x.effort&&x.effort<=2).length>=5},
+ {id:'easy5row',cat:'Getting Easier',name:'Effortless',desc:'Log 5 consecutive 5Ks rated Easy.',points:50,glyph:'5E',progress:e=>[Math.min(consecutiveEasy(e),5),5],test:e=>consecutiveEasy(e)>=5},
+ {id:'heart5',cat:'Getting Easier',name:'Heart Saver',desc:'Match or beat baseline pace at 5+ bpm lower HR.',points:40,glyph:'♥↓5',progress:e=>[heartSaver(e)?1:0,1],test:e=>heartSaver(e)},
+ {id:'heart10',cat:'Getting Easier',name:'Efficiency Ace',desc:'Match or beat baseline pace at 10+ bpm lower HR.',points:70,glyph:'♥↓10',progress:e=>[efficiencyAce(e)?1:0,1],test:e=>efficiencyAce(e)},
+ {id:'lapzero',cat:'Getting Easier',name:'Lap Zero',desc:'Reach 80+ Easy Score with 5 recent Easy/Comfortable 5Ks.',points:200,glyph:'LZ',progress:e=>[Math.min(easyScore(e).score,80),80],test:e=>easyScore(e).score>=80&&e.slice(-5).length===5&&e.slice(-5).every(x=>x.effort&&x.effort<=2)}
+];
+function totalKm(e){return e.reduce((s,x)=>s+(+x.distanceKm||0),0)}
+function best5k(e){const v=e.filter(x=>x.distanceKm&&x.durationSec).map(x=>x.durationSec/x.distanceKm*5);return v.length?Math.min(...v):null}
+function hasPb(e){if(e.length<2)return false;let best=Infinity;for(const x of e){const t=x.durationSec/x.distanceKm*5;if(t<best&&best<Infinity)return true;best=Math.min(best,t)}return false}
+function pbCount(e){let best=Infinity,n=0;e.forEach((x,i)=>{const t=x.durationSec/x.distanceKm*5;if(i&&t<best)n++;best=Math.min(best,t)});return n}
+function consecutiveEasy(e){let n=0;for(let i=e.length-1;i>=0;i--){if(e[i].effort===1)n++;else break}return n}
+function heartSaver(e){if(e.length<4)return false;const base=e.slice(0,3),bp=avg(base,'avgPaceSecPerKm'),bh=avg(base,'avgHR');if(!bp||!bh)return false;return e.slice(3).some(x=>x.avgHR&&x.avgPaceSecPerKm<=bp&&x.avgHR<=bh-5)}
+function efficiencyAce(e){if(e.length<4)return false;const base=e.slice(0,3),bp=avg(base,'avgPaceSecPerKm'),bh=avg(base,'avgHR');if(!bp||!bh)return false;return e.slice(3).some(x=>x.avgHR&&x.avgPaceSecPerKm<=bp&&x.avgHR<=bh-10)}
+function badgeSvg(a,unlocked,big=false){const palette={Streak:['#B94D32','#D87958'],Distance:['#587A91','#7CA7C1'],Speed:['#D59A3D','#F1C765'],'Getting Easier':['#4F7E60','#7DB18E']};const [c1,c2]=unlocked?palette[a.cat]:['#4A4F52','#656B6F'];const size=big?168:102;return `<svg width="${size}" height="${size}" viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="g${a.id}" x1="0" x2="1"><stop stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><circle cx="60" cy="60" r="54" fill="#171A1D" stroke="${unlocked?c2:'#555B5F'}" stroke-width="3"/><path d="M38 38 H82 A22 22 0 0 1 82 82 H38 A22 22 0 0 1 38 38 Z" fill="none" stroke="url(#g${a.id})" stroke-width="12"/><circle cx="78" cy="38" r="5" fill="${unlocked?'#F2EFE9':'#777D81'}"/><text x="60" y="66" text-anchor="middle" fill="${unlocked?'#F2EFE9':'#858B8F'}" font-size="${a.glyph.length>4?12:18}" font-family="system-ui" font-weight="900">${a.glyph}</text>${unlocked?'<path d="M25 90 Q60 108 95 90" fill="none" stroke="'+c2+'" stroke-width="3" opacity=".7"/>':''}</svg>`}
+function syncAchievements(entries,showUnlock=true){let u=getUnlocks(),newOnes=[];ACHIEVEMENTS.forEach(a=>{if(a.test(entries)&&!u[a.id]){u[a.id]={date:todayStr(),at:Date.now()};newOnes.push(a)}});setUnlocks(u);if(showUnlock&&newOnes.length)queueUnlocks(newOnes);return u}
+let unlockQueue=[];function queueUnlocks(arr){unlockQueue.push(...arr);if(!document.getElementById('unlockModal').classList.contains('open'))showNextUnlock()}
+function showNextUnlock(){if(!unlockQueue.length)return;const a=unlockQueue.shift();document.getElementById('unlockArt').innerHTML=badgeSvg(a,true,true);document.getElementById('unlockTitle').textContent=a.name;document.getElementById('unlockDesc').textContent=a.desc+` · +${a.points} points`;document.getElementById('unlockModal').classList.add('open')}
+document.getElementById('unlockClose').onclick=()=>{document.getElementById('unlockModal').classList.remove('open');setTimeout(showNextUnlock,180)};
+function renderAchievements(entries){const u=syncAchievements(entries,false),container=document.getElementById('achievementList');container.innerHTML='';const unlocked=ACHIEVEMENTS.filter(a=>u[a.id]);document.getElementById('achUnlocked').textContent=`${unlocked.length}/${ACHIEVEMENTS.length}`;document.getElementById('achPoints').textContent=unlocked.reduce((s,a)=>s+a.points,0);[...new Set(ACHIEVEMENTS.map(a=>a.cat))].forEach(cat=>{const h=document.createElement('div');h.className='achievement-category';h.textContent=cat;container.appendChild(h);const g=document.createElement('div');g.className='badge-grid';ACHIEVEMENTS.filter(a=>a.cat===cat).forEach(a=>{const on=!!u[a.id],[cur,max]=a.progress(entries),pct=max?clamp(cur/max,0,1)*100:0,c=document.createElement('div');c.className='badge-card'+(on?'':' locked');c.innerHTML=`<div class="badge-art">${badgeSvg(a,on)}</div><div class="badge-name">${a.name}</div><div class="badge-desc">${a.desc}</div><div class="badge-progress"><div style="width:${on?100:pct}%"></div></div><div class="badge-meta">${on?'Unlocked '+fmtDate(u[a.id].date):typeof cur==='number'&&typeof max==='number'?(Number.isInteger(cur)?cur:cur.toFixed(1))+' / '+max:a.points+' pts'}</div>`;g.appendChild(c)});container.appendChild(g)})}
+
+function renderAll(showUnlock=false){const e=chrono();renderLoop(e);renderToday(e);renderProgress(e);renderRuns(e);syncAchievements(e,showUnlock);renderAchievements(e)}
+
+function switchView(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));document.getElementById('view-'+v).classList.add('active');const tb=document.querySelector(`.tabs button[data-view="${v}"]`);if(tb)tb.classList.add('active');if(v==='progress')setTimeout(()=>renderProgress(chrono()),20)}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>switchView(b.dataset.view));document.getElementById('settingsBtn').onclick=()=>switchView('settings');
+
+function setChoice(group,value){document.querySelectorAll(`#${group} .choice`).forEach(b=>b.classList.toggle('active',String(b.dataset.value)===String(value)))}
+document.querySelectorAll('#runTypeChoices .choice').forEach(b=>b.onclick=()=>{state.runType=b.dataset.value;setChoice('runTypeChoices',state.runType)});document.querySelectorAll('#effortChoices .choice').forEach(b=>b.onclick=()=>{state.effort=+b.dataset.value;setChoice('effortChoices',state.effort)});
+function openRunModal(entry=null){const e=entry||chrono().find(x=>x.date===todayStr());document.getElementById('runModal').classList.add('open');document.body.style.overflow='hidden';document.getElementById('fDate').value=e?.date||todayStr();document.getElementById('fDist').value=e?.distanceKm||5;document.getElementById('fDur').value=e?fmtDur(e.durationSec):'';document.getElementById('fAvgHr').value=e?.avgHR||'';document.getElementById('fMaxHr').value=e?.maxHR||'';document.getElementById('fCad').value=e?.cadence||'';document.getElementById('fElev').value=e?.elevationM||'';document.getElementById('fCal').value=e?.calories||'';document.getElementById('fNotes').value=e?.notes||'';state.runType=e?.runType||'Easy';state.effort=e?.effort||2;setChoice('runTypeChoices',state.runType);setChoice('effortChoices',state.effort)}
+function closeRun(){document.getElementById('runModal').classList.remove('open');document.body.style.overflow='';state.scan=null;document.getElementById('scanPreview').classList.add('hidden');document.getElementById('scanStatus').textContent='';document.getElementById('scanBtn').disabled=true}
+document.getElementById('addRunBtn').onclick=()=>openRunModal();document.getElementById('closeRunModal').onclick=closeRun;document.getElementById('runModal').onclick=e=>{if(e.target.id==='runModal')closeRun()};
+
+document.getElementById('saveRunBtn').onclick=()=>{const date=document.getElementById('fDate').value||todayStr(),distanceKm=parseFloat(document.getElementById('fDist').value),durationSec=parseDur(document.getElementById('fDur').value);if(!distanceKm||!durationSec){toast('Distance and duration are required.');return}const entry={date,distanceKm,durationSec,avgPaceSecPerKm:durationSec/distanceKm,avgHR:+document.getElementById('fAvgHr').value||null,maxHR:+document.getElementById('fMaxHr').value||null,cadence:+document.getElementById('fCad').value||null,elevationM:+document.getElementById('fElev').value||null,calories:+document.getElementById('fCal').value||null,runType:state.runType,effort:state.effort,notes:document.getElementById('fNotes').value.trim(),updatedAt:new Date().toISOString()};let entries=chrono().filter(e=>e.date!==date);entries.push(entry);entries.sort((a,b)=>a.date.localeCompare(b.date));setEntries(entries);closeRun();renderAll(true);toast('Run saved.')};
+
+// Garmin screenshot scan
+const scanFile=document.getElementById('scanFile');document.getElementById('scanPick').onclick=()=>scanFile.click();scanFile.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const dataUrl=r.result,mime=dataUrl.substring(5,dataUrl.indexOf(';')),base64=dataUrl.split(',')[1];state.scan={mime,base64};const img=document.getElementById('scanPreview');img.src=dataUrl;img.classList.remove('hidden');document.getElementById('scanBtn').disabled=false};r.readAsDataURL(f)};
+document.getElementById('scanBtn').onclick=async()=>{const key=localStorage.getItem(KEYS.api)||'',status=document.getElementById('scanStatus'),btn=document.getElementById('scanBtn');if(!key){status.textContent='Add your Anthropic API key in Settings first.';status.className='scan-status err';return}if(!state.scan)return;btn.disabled=true;status.textContent='Reading screenshot…';status.className='scan-status';const prompt=`Read this Garmin Connect running activity screenshot. Return ONLY raw JSON with this exact shape: {"distanceKm":number|null,"durationSec":number|null,"avgHR":number|null,"maxHR":number|null,"cadence":number|null,"elevationM":number|null,"calories":number|null,"date":"YYYY-MM-DD"|null}. Convert duration to seconds. Do not guess fields that are not shown.`;try{const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:state.scan.mime,data:state.scan.base64}},{type:'text',text:prompt}]}]})});if(!res.ok)throw new Error('API error '+res.status);const data=await res.json();let text=data.content.map(b=>b.text||'').join('').replace(/^```json/i,'').replace(/^```/,'').replace(/```$/,'').trim(),p=JSON.parse(text);if(p.distanceKm!=null)fDist.value=p.distanceKm;if(p.durationSec!=null)fDur.value=fmtDur(p.durationSec);if(p.avgHR!=null)fAvgHr.value=p.avgHR;if(p.maxHR!=null)fMaxHr.value=p.maxHR;if(p.cadence!=null)fCad.value=p.cadence;if(p.elevationM!=null)fElev.value=p.elevationM;if(p.calories!=null)fCal.value=p.calories;if(p.date)fDate.value=p.date;status.textContent='Filled in below — check the values, choose effort, then save.';status.className='scan-status ok'}catch(err){status.textContent="Couldn't read that screenshot: "+err.message;status.className='scan-status err'}finally{btn.disabled=false}};
+
+// Settings / backup
+sGoal.value=getGoal();sApiKey.value=localStorage.getItem(KEYS.api)||'';saveGoalBtn.onclick=()=>{const n=+sGoal.value;if(n<1)return toast('Enter a valid target.');localStorage.setItem(KEYS.goal,String(n));renderAll();toast('Target saved.')};saveApiBtn.onclick=()=>{localStorage.setItem(KEYS.api,sApiKey.value.trim());toast('API key saved on this device.')};
+exportBtn.onclick=()=>{const backup={app:'Lap Zero',schemaVersion:VERSION,exportedAt:new Date().toISOString(),entries:chrono(),goal:getGoal(),unlocks:getUnlocks()};const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`lap-zero-backup-${todayStr()}.json`;a.click();URL.revokeObjectURL(url);toast('Backup exported.')};
+importBtn.onclick=()=>importFile.click();importFile.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result),incoming=Array.isArray(x)?x:(x.entries||[]);if(!Array.isArray(incoming))throw new Error('bad format');const byDate={};[...chrono(),...incoming.map(normalizeEntry)].forEach(v=>{if(v.date)byDate[v.date]=v});setEntries(Object.values(byDate).sort((a,b)=>a.date.localeCompare(b.date)));if(!Array.isArray(x)&&x.goal)localStorage.setItem(KEYS.goal,String(x.goal));if(!Array.isArray(x)&&x.unlocks)setUnlocks({...getUnlocks(),...x.unlocks});sGoal.value=getGoal();renderAll();toast('Backup imported and merged.')}catch{toast("Couldn't read that backup.")}};r.readAsText(f)};
+clearBtn.onclick=()=>{if(!confirm('Delete every logged run? Export a backup first if you want to keep them.'))return;setEntries([]);setUnlocks({});renderAll();toast('Run data deleted.')};
+
+renderAll();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
