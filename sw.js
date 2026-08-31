@@ -1,4 +1,4 @@
-const CACHE = "lap-zero-v2.1";
+const CACHE = "lap-zero-v3";
 const SHELL = [
   "./",
   "./index.html",
